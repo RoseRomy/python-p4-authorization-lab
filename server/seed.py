@@ -7,6 +7,7 @@ from faker import Faker
 from app import app
 from models import db, Article, User
 
+
 fake = Faker()
 
 with app.app_context():
@@ -25,7 +26,7 @@ with app.app_context():
         username = fake.first_name()
         while username in usernames:
             username = fake.first_name()
-        
+
         usernames.append(username)
 
         user = User(username=username)
@@ -38,19 +39,19 @@ with app.app_context():
     for i in range(100):
         content = fake.paragraph(nb_sentences=8)
         preview = content[:25] + '...'
-        
+
         article = Article(
             author=fake.name(),
             title=fake.sentence(),
             content=content,
             preview=preview,
-            minutes_to_read=randint(1,20),
-            is_member_only = rc([True, False, False])
+            minutes_to_read=randint(1, 20),
+            is_member_only=rc([True, False, False])
         )
 
         articles.append(article)
 
     db.session.add_all(articles)
-    
+
     db.session.commit()
     print("Complete.")
